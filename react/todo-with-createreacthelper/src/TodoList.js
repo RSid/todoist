@@ -40,14 +40,11 @@ class TodoList extends Component {
 
   deleteItem = id => {
     const filteredItems = this.state.items.filter(item => {
-    console.log(item)
-    console.log(id)
       return item.id !== id
     })
     this.setState({
       items: filteredItems,
     })
-    console.log(this.state.items)
   }
 
 
