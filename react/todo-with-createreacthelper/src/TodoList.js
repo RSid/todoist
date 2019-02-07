@@ -28,7 +28,7 @@ class TodoList extends Component {
         let lastId = lastElement.id
         newId = lastId + 1
       }
-      let newTodo={id: newId, title: newItem.text}
+      let newTodo={id: newId, title: newItem.text, checked: false}
       const items = [...this.state.items, newTodo]
       this.setState({
         items: items,
@@ -47,6 +47,26 @@ class TodoList extends Component {
     })
   }
 
+toggleCheck = id => {
+    const toggledItems = this.state.items.map(item => {
+      if(item.id !== id) {
+        return item
+      } else {
+        let newItem = item
+        newItem.checked = !item.checked
+        return newItem;
+      }
+    })
+    this.setState({
+      items: toggledItems,
+    })
+  }
+
+  undoneItems = () => {
+    return this.state.items.filter(item => {
+        return !item.checked
+    }).length
+  }
 
   render() {
     return (
@@ -61,7 +81,8 @@ class TodoList extends Component {
           </form>
         </div>
 
-        {this.state.items.map(t => <Todo id={t.id} title={t.title} deleteItem={this.deleteItem}/>)}
+        {this.state.items.map(t => <Todo id={t.id} title={t.title} deleteItem={this.deleteItem} toggleCheck={this.toggleCheck}/>)}
+        {this.undoneItems()} items left
       </div>
     )
   }
