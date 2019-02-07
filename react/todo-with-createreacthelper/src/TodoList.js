@@ -22,8 +22,13 @@ class TodoList extends Component {
     e.preventDefault()
     const newItem = this.state.currentItem
     if (newItem.text !== '') {
-      console.log(newItem)
-      let newTodo={id: 5, title: newItem.text}
+      let newId = 1;
+      if (this.state.items.length > 0) {
+        let lastElement = this.state.items[this.state.items.length - 1]
+        let lastId = lastElement.id
+        newId = lastId + 1
+      }
+      let newTodo={id: newId, title: newItem.text}
       const items = [...this.state.items, newTodo]
       this.setState({
         items: items,
@@ -31,6 +36,18 @@ class TodoList extends Component {
 
       })
     }
+  }
+
+  deleteItem = id => {
+    const filteredItems = this.state.items.filter(item => {
+    console.log(item)
+    console.log(id)
+      return item.id !== id
+    })
+    this.setState({
+      items: filteredItems,
+    })
+    console.log(this.state.items)
   }
 
 
@@ -47,7 +64,7 @@ class TodoList extends Component {
           </form>
         </div>
 
-        {this.state.items.map(t => <Todo key={t.id} title={t.title} />)}
+        {this.state.items.map(t => <Todo id={t.id} title={t.title} deleteItem={this.deleteItem}/>)}
       </div>
     )
   }
